@@ -1,6 +1,6 @@
 #include "daemon.h"
 #include "log.h"
-#include "ping.h"
+#include "blueping.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -34,7 +34,7 @@ class AlarmDaemon:public Daemon {
 			this->monitor=true;
 			this->stateon=false;
 			while (this->monitor) {
-				int ping=Ping::ping(this->parameters->get("target")->asString());
+				int ping=BluePing::ping(this->parameters->get("target")->asString());
 				if (ping>=0) {
 					if (ping==0) {
 						Log::logger->log("MAIN",DEBUG) << "Can't find target" << endl;

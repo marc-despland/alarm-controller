@@ -4,7 +4,7 @@ CC    = g++
 CPPFLAGS       = -g -Wall -Iinclude 
 OLDFLAGS	= -std=c++11
 CFLAGS       = $(CPPFLAGS) 
-LDLIBS		 = -lutil
+LDLIBS		 = -lutil -lbluetooth
 TARGET  = alarm-controller
 SOURCES = $(shell echo src/*.cpp)
 HEADERS = $(shell echo include/*.h)
@@ -19,6 +19,8 @@ install: $(TARGET)
 	- mkdir -p /opt/alarm-controller/bin
 	- mkdir -p /opt/alarm-controller/etc
 	- mkdir -p /opt/alarm-controller/scripts
+	- mkdir -p /opt/alarm-controller/log
+	- mkdir -p /opt/alarm-controller/run
 	- cp alarm-controller /opt/alarm-controller/bin/
 	- chmod a+rx /opt/alarm-controller/bin/alarm-controller
 	- /opt/alarm-controller/bin/alarm-controller -a create -f /opt/alarm-controller/etc/alarm-controller.conf
