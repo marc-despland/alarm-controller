@@ -38,17 +38,17 @@ class AlarmDaemon:public Daemon {
 				if (ping>=0) {
 					if (ping==0) {
 						Log::logger->log("MAIN",DEBUG) << "Can't find target" << endl;
-						if (this->stateon) {
-							Log::logger->log("MAIN",NOTICE) << "Stop the Alarm" << endl;
-							this->stateon=false;
-							::system(this->parameters->get("stop")->asChars());
-						}
-					} else {
-						Log::logger->log("MAIN",DEBUG) << "Target find" << endl;
 						if (!this->stateon) {
 							Log::logger->log("MAIN",NOTICE) << "Start the Alarm" << endl;
 							this->stateon=true;
 							::system(this->parameters->get("start")->asChars());
+						}
+					} else {
+						Log::logger->log("MAIN",DEBUG) << "Target find" << endl;
+						if (this->stateon) {
+							Log::logger->log("MAIN",NOTICE) << "Stop the Alarm" << endl;
+							this->stateon=false;
+							::system(this->parameters->get("stop")->asChars());
 						}
 					}
 				}
