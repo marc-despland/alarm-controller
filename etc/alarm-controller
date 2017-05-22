@@ -1,0 +1,20 @@
+#!/bin/bash
+
+DAEMON=/opt/alarm-controller/bin/alarm-controller
+CONFIG=/opt/alarm-controller/etc/alarm-controller.conf
+
+case "$1" in
+  start)
+  	$DAEMON -a start -f $CONFIG
+  	rc=$?
+  	;;
+  start)
+  	$DAEMON -a stop -f $CONFIG
+  	rc=$?
+  	;;
+  *)
+    echo $"Usage: $0 {start|stop}"
+    exit 2
+esac
+
+exit $rc
