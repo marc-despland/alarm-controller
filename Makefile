@@ -14,7 +14,18 @@ MAINOBJ	= $(MAIN:.cpp=.o)
 DEBUGFLAGS = -g
  
 all: $(TARGET)
- 
+
+install: $(TARGET)
+	- mkdir -p /opt/alarm-controller/bin
+	- mkdir -p /opt/alarm-controller/etc
+	- mkdir -p /opt/alarm-controller/scripts
+	- cp alarm-controller /opt/alarm-controller/bin/
+	- chmod a+rx /opt/alarm-controller/bin/alarm-controller
+	- /opt/alarm-controller/bin/alarm-controller -a create -f /opt/alarm-controller/etc/alarm-controller.conf
+	- cp scripts/*.sh /opt/alarm-controller/scripts/
+	- chmod a+rx /opt/alarm-controller/scripts/*.sh
+	- cp etc/alarm-controller /etc/init.d/
+	- chmod a+rx /etc/init.d/alarm-controller
 
 clean:
 	-echo "clean"
