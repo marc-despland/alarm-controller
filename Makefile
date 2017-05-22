@@ -23,7 +23,7 @@ install: $(TARGET)
 	- mkdir -p /opt/alarm-controller/run
 	- cp alarm-controller /opt/alarm-controller/bin/
 	- chmod a+rx /opt/alarm-controller/bin/alarm-controller
-	- /opt/alarm-controller/bin/alarm-controller -a create -f /opt/alarm-controller/etc/alarm-controller.conf
+	- cd /opt/alarm-controller/bin; ./alarm-controller -a create -f /opt/alarm-controller/etc/alarm-controller.conf
 	- cp scripts/*.sh /opt/alarm-controller/scripts/
 	- chmod a+rx /opt/alarm-controller/scripts/*.sh
 	- cp etc/alarm-controller /etc/init.d/

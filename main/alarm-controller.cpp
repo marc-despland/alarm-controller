@@ -57,6 +57,8 @@ class AlarmDaemon:public Daemon {
 		}
 		void terminate(){
 			Log::logger->log("MAIN",NOTICE) << "Child daemon terminate" << endl;
+			this->monitor=false;
+			::system(this->parameters->get("stop")->asChars());
 		}		
 };
 
