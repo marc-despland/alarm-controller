@@ -24,6 +24,7 @@ class Variable {
 		int asInt();
 		double asDouble();
 		char * asChars();
+		bool asBool();
 		
 	protected:
 		string description;

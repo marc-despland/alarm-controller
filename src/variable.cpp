@@ -20,6 +20,10 @@ Variable::Variable(string description, bool mandatory, string value) {
 
 Variable::~Variable() {}
 
+bool Variable::asBool() {
+	return (("true"==this->value) || ("True"==this->value) || ("TRUE"==this->value) || ("on"==this->value) || ("On"==this->value) || ("ON"==this->value));
+}
+
 void Variable::set(string value) {
 	this->value=value;
 	this->assign=true;

@@ -1,5 +1,5 @@
 # alarm-controller
-A daemon to activate or deactivate alarm when a smartphone is on bluetooth range.
+A daemon to activate or deactivate alarm when a smartphone is on bluetooth range. 
 
 The daemon look for the target every 10s.
 
@@ -81,3 +81,6 @@ A service file as been put in /etc/init.d, to start the daemon automatically :
 sudo update-rc.d alarm-controller defauls
 ```
 
+## Using ICMP request
+
+With ''bluetooth'' set to off in the config file, the daemon will use ICMP request instead. Then target as to be the IP address of the device.

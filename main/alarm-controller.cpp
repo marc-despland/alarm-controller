@@ -1,6 +1,7 @@
 #include "daemon.h"
 #include "log.h"
 #include "blueping.h"
+#include "ping.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -22,6 +23,7 @@ class AlarmDaemon:public Daemon {
 				this->parameters->add("target", "The target Bluetooth ID to monitor", true, "xx:xx:xx:xx:xx");
 				this->parameters->add("entry", "The script executed when the device entry the bluetooth reception area", true, "/opt/alarm-controller/scripts/entry.sh");
 				this->parameters->add("leaving", "The script executed when the device leave the bluetooth reception area", true, "/opt/alarm-controller/scripts/leaving.sh");
+				this->parameters->add("bluetooth", "Use bluetooth to ping the device, if false ICMP request will be used" , true, "true");
 				
 				Log::logger->log("MAIN",NOTICE) << "Adding port and pool parameters" << endl;
 			} catch(ExistingParameterNameException &e ) {
@@ -34,7 +36,12 @@ class AlarmDaemon:public Daemon {
 			this->monitor=true;
 			this->stateon=false;
 			while (this->monitor) {
-				int ping=BluePing::ping(this->parameters->get("target")->asString());
+				int ping=-1;
+				if (this->parameters->get("bluetooth")->asBool()) {
+					ping=BluePing::ping(this->parameters->get("target")->asString());
+				} else {
+					ping=Ping::ping(this->parameters->get("target")->asString());
+				}
 				if (ping>=0) {
 					if (ping==0) {
 						Log::logger->log("MAIN",DEBUG) << "Can't find target" << endl;
