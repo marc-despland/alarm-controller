@@ -46,9 +46,26 @@ Device 2C:**:**:**:**:18
 	RSSI: -37
 ```
 
+## Build and Install
+
+* To build the project (work fine on raspberri pi with raspbian, and centos)
 
 ```
 make
+```
+
+To create a configuration file:
+```
+./alarm-controller -a create -f myconfig.cfg
+```
+
+To test it, run :
+```
+./alarm-controller -u -a start -f myconfig.cfg
+```
+
+* Install
+```
 sudo make install
 ```
 
@@ -58,4 +75,9 @@ The configuration file is /opt/alarm-controller/etc/alarm-controller.conf
 
 Change the target value to the bluetooth mac address of your device
 
+
+A service file as been put in /etc/init.d, to start the daemon automatically :
+```
+sudo update-rc.d alarm-controller defauls
+```
 
