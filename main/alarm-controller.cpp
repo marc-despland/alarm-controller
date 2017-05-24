@@ -19,9 +19,9 @@ class AlarmDaemon:public Daemon {
 		bool stateon;
 		AlarmDaemon(string program, string version, string description):Daemon(program, version, description) {
 			try {
-				this->parameters->add("target", "The target IP to monitor", true, "192.168.1.1");
-				this->parameters->add("start", "The start script to use", true, "/opt/alarm-controller/scripts/start.sh");
-				this->parameters->add("stop", "The stop script to use", true, "/opt/alarm-controller/scripts/stop.sh");
+				this->parameters->add("target", "The target Bluetooth ID to monitor", true, "xx:xx:xx:xx:xx");
+				this->parameters->add("entry", "The script executed when the device entry the bluetooth reception area", true, "/opt/alarm-controller/scripts/entry.sh");
+				this->parameters->add("leaving", "The script executed when the device leave the bluetooth reception area", true, "/opt/alarm-controller/scripts/leaving.sh");
 				
 				Log::logger->log("MAIN",NOTICE) << "Adding port and pool parameters" << endl;
 			} catch(ExistingParameterNameException &e ) {
@@ -39,16 +39,16 @@ class AlarmDaemon:public Daemon {
 					if (ping==0) {
 						Log::logger->log("MAIN",DEBUG) << "Can't find target" << endl;
 						if (!this->stateon) {
-							Log::logger->log("MAIN",NOTICE) << "Start the Alarm" << endl;
+							Log::logger->log("MAIN",NOTICE) << "Device leave the area" << endl;
 							this->stateon=true;
-							::system(this->parameters->get("start")->asChars());
+							::system(this->parameters->get("leaving")->asChars());
 						}
 					} else {
 						Log::logger->log("MAIN",DEBUG) << "Target find" << endl;
 						if (this->stateon) {
-							Log::logger->log("MAIN",NOTICE) << "Stop the Alarm" << endl;
+							Log::logger->log("MAIN",NOTICE) << "Device enter the area" << endl;
 							this->stateon=false;
-							::system(this->parameters->get("stop")->asChars());
+							::system(this->parameters->get("entry")->asChars());
 						}
 					}
 				}
@@ -67,7 +67,7 @@ class AlarmDaemon:public Daemon {
 
 int main(int argc, char **argv) {
 	Log::logger->setLevel(DEBUG);
-	AlarmDaemon::Initialize(argv[0], "1.0.0", "Test program for class Daemon");
+	AlarmDaemon::Initialize(argv[0], "1.0.0", "Check a device enter in the bluetooth area of the daemon");
 		//exit(0);
 
 	try {
